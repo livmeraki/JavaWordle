@@ -11,7 +11,7 @@ import java.util.List;
 public class GamePanel extends JPanel {
     private final int gridSize = 5;
     private final int maxAttempts = 6;
-    private final String FILE_PATH = "C:\\Users\\markm\\Documents\\Handong 4th Sem\\Java Programming\\Wordle_Project\\Wordle\\src\\wordslistfile.txt";
+    private final String FILE_PATH = "words.txt";
     private List<String> wordList;
     private String targetWord;
     private String[] guesses;

@@ -1,9 +1,10 @@
 import java.util.Random;
+import java.util.List;
 
 public class GameLogic {
-    public static String pickRandomWord(String[] wordsArray) {
+    public static String pickRandomWord(List<String> wordsArray) {
         Random random = new Random();
-        int randomIndex = random.nextInt(wordsArray.length);
-        return wordsArray[randomIndex];
+        int randomIndex = random.nextInt(wordsArray.size());
+        return wordsArray.get(randomIndex);
     }
 }

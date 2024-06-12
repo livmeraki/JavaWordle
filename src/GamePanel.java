@@ -2,16 +2,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends JPanel {
     private final int gridSize = 5;
     private final int maxAttempts = 6;
+
     private final String[] words = {"TIGER", "TABLE", "CHAIR", "BREAD", "CLOUD", "PLANT", "GLOVE", "SHIRT", "DREAM", "BRICK"};
     private String targetWord;
     private String[] guesses;
     private int currentAttempt;
     private int currentLetter;
     private boolean gameWon;
+
+    private final String FILE_PATH = "src/words.txt";
+    private List<String> wordList;
+
+
+    private void loadWords() {
+        wordList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                wordList.add(line.trim().toUpperCase());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Word list loaded with " + wordList.size() + " words."); // Debug print
+    }
 
     public GamePanel() {
         this.setFocusable(true);
@@ -22,7 +45,8 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < maxAttempts; i++) {
             guesses[i] = "";
         }
-        targetWord = GameLogic.pickRandomWord(words);
+        loadWords();
+        //targetWord = GameLogic.pickRandomWord(wordList);
         currentAttempt = 0;
         currentLetter = 0;
         gameWon = false;
