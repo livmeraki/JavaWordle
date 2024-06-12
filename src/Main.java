@@ -7,6 +7,7 @@ public class Main {
         frame.setSize(500, 600);
         frame.setResizable(false);
         
+        LaunchGame launchGame = new LaunchGame();
         GamePanel gamePanel = new GamePanel();
         frame.add(gamePanel);
         frame.setVisible(true);

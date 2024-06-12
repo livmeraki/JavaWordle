@@ -12,16 +12,14 @@ public class GamePanel extends JPanel {
     private final int gridSize = 5;
     private final int maxAttempts = 6;
 
-    private final String[] words = {"TIGER", "TABLE", "CHAIR", "BREAD", "CLOUD", "PLANT", "GLOVE", "SHIRT", "DREAM", "BRICK"};
+    private final String FILE_PATH = "src/wordle_words.txt";
+    private List<String> wordList;
+
     private String targetWord;
     private String[] guesses;
     private int currentAttempt;
     private int currentLetter;
     private boolean gameWon;
-
-    private final String FILE_PATH = "src/words.txt";
-    private List<String> wordList;
-
 
     private void loadWords() {
         wordList = new ArrayList<>();
