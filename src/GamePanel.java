@@ -46,7 +46,7 @@ public class GamePanel extends JPanel {
             guesses[i] = "";
         }
         loadWords();
-        //targetWord = GameLogic.pickRandomWord(wordList);
+        targetWord = GameLogic.pickRandomWord(wordList);
         currentAttempt = 0;
         currentLetter = 0;
         gameWon = false;
