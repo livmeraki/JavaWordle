@@ -1,28 +1,39 @@
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*; 
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 
 public class LaunchGame implements ActionListener{
-    private final int screenWidth = 500;
-    private final int screenHeight = 600;
-
-    private JFrame frame = new JFrame();
-    private JButton myButton = new JButton("New Window");
+    private JFrame frame = new JFrame("Wordle");
+    private JButton myButton = new JButton("Start Game");
+    private GamePanel gamePanel = new GamePanel();
     
     LaunchGame(){
-        myButton.setBounds(100,160,200,40);
-        myButton.setFocusable(false);
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        myButton.setBounds((int)size.getWidth()/2-100,(int)size.getHeight()/2-20,200,40);
+        //myButton.setFocusable(false);
         myButton.addActionListener(this);
 
-        frame.add(myButton);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(screenWidth,screenHeight);
-        frame.setLayout(null);
         frame.setVisible(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.add(myButton);
     }
 
     @Override 
     public void actionPerformed(ActionEvent e){
-
+        if(e.getSource()==myButton){
+            frame.getContentPane().removeAll(); 
+            frame.add(gamePanel); 
+            frame.revalidate(); // update layout
+            frame.repaint(); // reflect changes
+        }
     }
 }
