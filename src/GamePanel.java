@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GamePanel extends JPanel {
     //grid size
     private final int gridSize = 5;
@@ -78,13 +79,17 @@ public class GamePanel extends JPanel {
         int height = 70;
         for (int i = 0; i < maxAttempts; i++) {
             for (int j = 0; j < gridSize; j++) {
+                int fontSize = 40;
+                Font f = new Font("Verdana", Font.BOLD, fontSize);
+                g.setFont(f);
+
                 int x = (int)(j * 80 + (int)size.getWidth()/2 - width*2.5);
                 int y = i * 80 + (int)size.getHeight()/8;
                 g.drawRect((int)x, y, width, height);
                 if (j < guesses[i].length()) {
                     char letter = guesses[i].charAt(j);
                     g.setColor(Color.BLACK);
-                    g.drawString(String.valueOf(letter), x + 30, y + 30);
+                    g.drawString(String.valueOf(letter), x + 20, y + 50);
                 }
             }
         }
@@ -94,16 +99,22 @@ public class GamePanel extends JPanel {
                 int x = (int)(j * 80 + (int)size.getWidth()/2 - width*2.5);
                 int y = i * 80 + (int)size.getHeight()/8;
                 char letter = guesses[i].charAt(j);
+
+                int fontSize = 40;
+                Font f = new Font("Verdana", Font.BOLD, fontSize);
+                g.setFont(f);
+
                 if (letter == targetWord.charAt(j)) {
-                    g.setColor(Color.GREEN);
+                    g.setColor(Color.GREEN.darker());
                 } else if (targetWord.indexOf(letter) != -1) {
-                    g.setColor(Color.YELLOW);
+                    g.setColor(Color.YELLOW.darker());
                 } else {
                     g.setColor(Color.GRAY);
                 }
-                g.fillRect(x, y, width, height);
-                g.setColor(Color.BLACK);
-                g.drawString(String.valueOf(letter), x + 30, y + 30);
+
+                g.fillRect(x+1, y+1, width-1, height-1);
+                g.setColor(Color.WHITE);
+                g.drawString(String.valueOf(letter), x + 20, y + 50);
                 g.setColor(Color.WHITE);
             }
         }
