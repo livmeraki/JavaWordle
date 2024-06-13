@@ -4,6 +4,8 @@ import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import java.awt.Font;
+
 
 public class LaunchGame implements ActionListener{
     private JFrame frame = new JFrame("Wordle");
