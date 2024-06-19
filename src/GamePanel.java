@@ -15,7 +15,9 @@ public class GamePanel extends JPanel {
 
     // word file import
     private final String FILE_PATH = "wordle_words.txt";
+    private final String FILE_PATH2 = "src\\words.txt";
     private List<String> wordList;
+    private List<String> wordList2;
 
     // player variables
     private String targetWord;
@@ -38,7 +40,18 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Word list loaded with " + wordList.size() + " words."); // Debug print
+        System.out.println("Word list loaded with " + wordList.size() + " words.");
+
+        wordList2 = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH2))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                wordList2.add(line.trim().toUpperCase());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Word list2 loaded with " + wordList2.size() + " words."); // Debug print
     }
 
     public GamePanel() {
@@ -152,9 +165,9 @@ public class GamePanel extends JPanel {
 
     private boolean isWordValid(String word) {
         isitWord = true;
-            isitWord = wordList.contains(word);
+            isitWord = wordList2.contains(word);
         
-        return wordList.contains(word);
+        return wordList2.contains(word);
     }
 
     private void checkGuess() {
