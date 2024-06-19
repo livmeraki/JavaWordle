@@ -8,24 +8,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GamePanel extends JPanel {
-    //grid size
+    // grid size
     private final int gridSize = 5;
     private final int maxAttempts = 6;
 
-    //word file import
-    private final String FILE_PATH = "src/wordle_words.txt";
+    // word file import
+    private final String FILE_PATH = "wordle_words.txt";
     private List<String> wordList;
 
-    //player variables
+    // player variables
     private String targetWord;
     private String[] guesses;
     private int currentAttempt;
     private int currentLetter;
     private boolean gameWon;
+    private boolean isitWord;
 
-    //entire screen size
+    // entire screen size
     private Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
     private void loadWords() {
@@ -45,32 +45,39 @@ public class GamePanel extends JPanel {
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.addKeyListener(new KeyHandler());
-        
-        //initialize guesses array
+
+        // initialize guesses array
         guesses = new String[maxAttempts];
         for (int i = 0; i < maxAttempts; i++) {
             guesses[i] = "";
         }
 
-        //initialize setting
+        // initialize setting
         loadWords();
         targetWord = GameLogic.pickRandomWord(wordList);
         currentAttempt = 0;
         currentLetter = 0;
         gameWon = false;
+        isitWord = true;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawGraphics(g);
-        if (gameWon) {
-            g.setColor(Color.GREEN);
-            g.drawString("You Won!", getWidth() / 2 - 50, getHeight() - 50);
-        } else if (currentAttempt == maxAttempts) {
+        System.out.println(isitWord);
+        if (isitWord) {
+            if (gameWon) {
+                g.setColor(Color.GREEN);
+                g.drawString("You Won!", getWidth() / 2 - 50, getHeight() - 50);
+            } else if (currentAttempt == maxAttempts) {
+                g.setColor(Color.RED);
+                g.drawString("Game Over!", getWidth() / 2 - 50, getHeight() - 50);
+                g.drawString("Word was: " + targetWord, getWidth() / 2 - 50, getHeight() - 20);
+            } 
+        }else {
             g.setColor(Color.RED);
-            g.drawString("Game Over!", getWidth() / 2 - 50, getHeight() - 50);
-            g.drawString("Word was: " + targetWord, getWidth() / 2 - 50, getHeight() - 20);
+            g.drawString("It is not word!", getWidth() / 2 - 50, getHeight() - 50);
         }
     }
 
@@ -83,9 +90,9 @@ public class GamePanel extends JPanel {
                 Font f = new Font("Verdana", Font.BOLD, fontSize);
                 g.setFont(f);
 
-                int x = (int)(j * 80 + (int)size.getWidth()/2 - width*2.5);
-                int y = i * 80 + (int)size.getHeight()/8;
-                g.drawRect((int)x, y, width, height);
+                int x = (int) (j * 80 + (int) size.getWidth() / 2 - width * 2.5);
+                int y = i * 80 + (int) size.getHeight() / 8;
+                g.drawRect((int) x, y, width, height);
                 if (j < guesses[i].length()) {
                     char letter = guesses[i].charAt(j);
                     g.setColor(Color.BLACK);
@@ -96,8 +103,8 @@ public class GamePanel extends JPanel {
 
         for (int i = 0; i < currentAttempt; i++) {
             for (int j = 0; j < gridSize; j++) {
-                int x = (int)(j * 80 + (int)size.getWidth()/2 - width*2.5);
-                int y = i * 80 + (int)size.getHeight()/8;
+                int x = (int) (j * 80 + (int) size.getWidth() / 2 - width * 2.5);
+                int y = i * 80 + (int) size.getHeight() / 8;
                 char letter = guesses[i].charAt(j);
 
                 int fontSize = 40;
@@ -112,7 +119,7 @@ public class GamePanel extends JPanel {
                     g.setColor(Color.GRAY);
                 }
 
-                g.fillRect(x+1, y+1, width-1, height-1);
+                g.fillRect(x + 1, y + 1, width - 1, height - 1);
                 g.setColor(Color.WHITE);
                 g.drawString(String.valueOf(letter), x + 20, y + 50);
                 g.setColor(Color.WHITE);
@@ -143,13 +150,28 @@ public class GamePanel extends JPanel {
         }
     }
 
+    private boolean isWordValid(String word) {
+        isitWord = true;
+            isitWord = wordList.contains(word);
+        
+        return wordList.contains(word);
+    }
+
     private void checkGuess() {
         String guess = guesses[currentAttempt];
-        if (guess.equals(targetWord)) {
-            gameWon = true;
+
+        if (isWordValid(guess)) {
+            if (guess.equals(targetWord)) {
+                gameWon = true;
+            } else {
+                currentAttempt++;
+                currentLetter = 0;
+            }
         } else {
-            currentAttempt++;
+            guesses[currentAttempt] = "";
             currentLetter = 0;
+            repaint();
         }
     }
+
 }
